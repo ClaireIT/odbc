@@ -238,6 +238,9 @@ func (c *BindableColumn) Bind(h api.SQLHSTMT, idx int) (bool, error) {
 	if IsError(ret) {
 		return false, NewError("SQLBindCol", h)
 	}
+	if len(c.Buffer) < int(c.Len) {
+		return c.BaseColumn.Value(c.Buffer)
+	}
 	c.IsBound = true
 	return true, nil
 }
